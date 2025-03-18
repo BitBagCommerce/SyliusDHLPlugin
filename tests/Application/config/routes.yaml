@@ -1,0 +1,13 @@
+bitbag_sylius_example_shop:
+    resource: "@BitBagSyliusDhlPlugin/config/shop_routing.yml"
+    prefix: /{_locale}
+    requirements:
+        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
+
+bitbag_sylius_example_admin:
+    resource: "@BitBagSyliusDhlPlugin/config/admin_routing.yml"
+    prefix: /admin
+    
+bitbag_shipping_export_plugin:
+    resource: "@BitBagSyliusShippingExportPlugin/Resources/config/routing.yml"
+    prefix: /admin

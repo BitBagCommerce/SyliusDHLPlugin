@@ -1,0 +1,27 @@
+/vendor/
+/node_modules/
+/composer.lock
+
+/etc/build/*
+!/etc/build/.gitkeep
+
+/tests/Application/yarn.lock
+
+/.phpunit.result.cache
+/behat.yml
+/phpspec.yml
+/phpunit.xml
+.phpunit.result.cache
+
+# Symfony CLI https://symfony.com/doc/current/setup/symfony_server.html#different-php-settings-per-project
+/.php-version
+/php.ini
+
+###> bitbag/shipping-export-plugin ###
+/shipping_labels/
+###< bitbag/shipping-export-plugin ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
