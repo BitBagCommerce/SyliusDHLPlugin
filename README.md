@@ -1,6 +1,10 @@
 <p align="center">
     <a href="https://sylius.com" target="_blank">
-        <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="https://media.sylius.com/sylius-logo-800-dark.png">
+          <source media="(prefers-color-scheme: light)" srcset="https://media.sylius.com/sylius-logo-800.png">
+          <img alt="Sylius Logo." src="https://media.sylius.com/sylius-logo-800.png">
+        </picture>
     </a>
 </p>
 
@@ -15,22 +19,33 @@ there you will find the <a href="https://docs.sylius.com/en/latest/plugin-develo
 
 ## Quickstart Installation
 
+Run `composer create-project sylius/plugin-skeleton ProjectName`.
+
 ### Traditional
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
-
-2. From the plugin skeleton root directory, run the following commands:
+1. From the plugin skeleton root directory, run the following commands:
 
     ```bash
     $ (cd tests/Application && yarn install)
     $ (cd tests/Application && yarn build)
     $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
-    
+
     $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
     $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
+    # Optionally load data fixtures
+    $ (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load --no-interaction)
     ```
 
-To be able to set up a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+    To be able to set up a plugin's database, remember to configure your database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+
+1. Run your local server:
+
+      ```bash
+      symfony server:ca:install
+      APP_ENV=test symfony server:start --dir=tests/Application/public --daemon
+      ```
+
+1. Open your browser and navigate to `https://localhost:8000`.
 
 ### Docker
 
@@ -59,7 +74,7 @@ To be able to set up a plugin's database, remember to configure you database cre
   - Behat (non-JS scenarios)
 
     ```bash
-    vendor/bin/behat --strict --tags="~@javascript"
+    vendor/bin/behat --strict --tags="~@javascript&&~@mink:chromedriver"
     ```
 
   - Behat (JS scenarios)
@@ -82,16 +97,10 @@ To be able to set up a plugin's database, remember to configure you database cre
     4. Run Behat:
     
       ```bash
-      vendor/bin/behat --strict --tags="@javascript"
+      vendor/bin/behat --strict --tags="~@javascript&&~@mink:chromedriver"
       ```
     
   - Static Analysis
-  
-    - Psalm
-    
-      ```bash
-      vendor/bin/psalm
-      ```
       
     - PHPStan
     
