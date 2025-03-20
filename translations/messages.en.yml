@@ -11,5 +11,6 @@ bitbag_sylius_dhl_plugin:
     name: Name (first and last name or company name)
     city: City
     street: Street
-    house_number: House number
     postal_code: Postal code
+    email: E-mail
+    phone_number: Phone number

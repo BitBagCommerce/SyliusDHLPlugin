@@ -49,11 +49,15 @@ final class ShippingGatewayType extends AbstractType
             ->add('street', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.street',
             ])
-            ->add('house_number', TextType::class, [
-                'label' => 'bitbag_sylius_dhl_plugin.ui.house_number',
-            ])
             ->add('postal_code', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.postal_code',
-            ]);
+            ])
+            ->add('email', TextType::class, [
+                'label' => 'bitbag_sylius_dhl_plugin.ui.email',
+            ])
+            ->add('phone_number', TextType::class, [
+                'label' => 'bitbag_sylius_dhl_plugin.ui.phone_number',
+            ])
+        ;
     }
 }
