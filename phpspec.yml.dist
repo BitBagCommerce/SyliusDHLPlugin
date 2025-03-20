@@ -1,4 +1,4 @@
 suites:
     main:
         namespace: BitBag\SyliusDhlPlugin
-        psr4_prefix: Acme\SyliusDhlPlugin
+        psr4_prefix: BitBag\SyliusDhlPlugin

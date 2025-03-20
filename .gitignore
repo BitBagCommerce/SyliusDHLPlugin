@@ -17,10 +17,6 @@
 /.php-version
 /php.ini
 
-###> bitbag/shipping-export-plugin ###
-/shipping_labels/
-###< bitbag/shipping-export-plugin ###
-
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
