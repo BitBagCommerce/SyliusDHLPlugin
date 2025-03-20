@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="bitbag.dhl_plugin.resolver.url.production" type="string">https://api-eu.dhl.comdontusepls</parameter>
+        <parameter key="bitbag.dhl_plugin.resolver.url.sandbox" type="string">https://api-sandbox.dhl.com</parameter>
+    </parameters>
     <services>
         <service class="BitBag\SyliusDhlPlugin\Form\Type\ShippingGatewayType"
                  id="bitbag.dhl_plugin.form.type.dhl_shipping_gateway">
             <tag name="bitbag.shipping_gateway_configuration_type" type="dhl" label="DHL" />
+        </service>
+
+        <service class="BitBag\SyliusDhlPlugin\Provider\DhlTokenProvider"
+                 id="bitbag.dhl_plugin.provider.dhl_token_provider">
+            <argument type="service" id="http_client" />
+            <argument type="service" id="cache.app" />
+            <argument type="service" id="bitbag.dhl_plugin.resolver.dhl_api_url_resolver" />
+        </service>
+
+        <service class="BitBag\SyliusDhlPlugin\Resolver\DhlApiUrlResolver"
+                 id="bitbag.dhl_plugin.resolver.dhl_api_url_resolver">
+            <argument>%bitbag.dhl_plugin.resolver.url.production%</argument>
+            <argument>%bitbag.dhl_plugin.resolver.url.sandbox%</argument>
+        </service>
+
+        <service class="BitBag\SyliusDhlPlugin\Api\WebClient"
+                 id="bitbag.dhl_plugin.api.web_client" />
+
+        <service class="BitBag\SyliusDhlPlugin\EventListener\DhlShippingExportEventListener"
+                 id="bitbag.dhl_plugin.event_listener.dhl_shipping_export">
+            <argument type="service" id="bitbag.dhl_plugin.api.web_client" />
+            <argument type="service" id="bitbag.dhl_plugin.provider.dhl_token_provider" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="http_client" />
+            <argument type="service" id="bitbag.dhl_plugin.resolver.dhl_api_url_resolver" />
+            <tag name="kernel.event_listener" method="exportShipment" event="bitbag.shipping_export.export_shipment" />
         </service>
     </services>
 </container>

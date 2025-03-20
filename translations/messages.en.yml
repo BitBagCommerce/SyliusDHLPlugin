@@ -15,3 +15,4 @@ bitbag_sylius_dhl_plugin:
     email: E-mail
     phone_number: Phone number
     country_code: Country
+    shipment_data_has_been_exported: Shipment data has been exported
