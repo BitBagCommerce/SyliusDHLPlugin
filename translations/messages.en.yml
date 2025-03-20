@@ -14,3 +14,4 @@ bitbag_sylius_dhl_plugin:
     postal_code: Postal code
     email: E-mail
     phone_number: Phone number
+    country_code: Country

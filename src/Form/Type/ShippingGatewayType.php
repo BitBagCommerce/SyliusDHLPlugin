@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusDhlPlugin\Form\Type;
 
 use BitBag\SyliusDhlPlugin\Enum\DhlEnvironmentEnum;
+use Sylius\Bundle\AddressingBundle\Form\Type\CountryCodeChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -42,6 +43,9 @@ final class ShippingGatewayType extends AbstractType
             ])
             ->add('name', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.name',
+            ])
+            ->add('country_code', CountryCodeChoiceType::class, [
+                'label' => 'bitbag_sylius_dhl_plugin.ui.country_code',
             ])
             ->add('city', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.city',

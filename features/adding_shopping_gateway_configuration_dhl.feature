@@ -17,10 +17,11 @@ Feature: Creating shipping gateway
     And I fill the "Password" field with "123"
     And I fill the "Client id" field with "secret"
     And I fill the "Client secret" field with "super_secret"
+    And I fill the "Environment" field with "1"
     And I fill the "Name (first and last name or company name)" field with "Ja"
+    And I fill the "Country" field with "US"
     And I fill the "City" field with "Wawa"
     And I fill the "Street" field with "Strasse"
-    And I fill the "House number" field with "1a"
     And I fill the "Postal code" field with "12122"
     And I add it
     Then I should be notified that the shipping gateway has been created
