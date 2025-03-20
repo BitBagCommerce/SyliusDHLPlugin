@@ -13,7 +13,6 @@ namespace BitBag\SyliusDhlPlugin\Resolver;
 
 use BitBag\SyliusDhlPlugin\Enum\DhlEnvironmentEnum;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
-use Webmozart\Assert\Assert;
 
 final class DhlApiUrlResolver implements DhlApiUrlResolverInterface
 {
