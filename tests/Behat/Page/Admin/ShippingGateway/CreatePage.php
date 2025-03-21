@@ -18,33 +18,21 @@ final class CreatePage extends BaseCreatePage implements CreatePageInterface
 {
     use ContainsError;
 
-    /**
-     * @inheritdoc
-     */
-    public function selectShippingMethod($name): void
+    public function selectShippingMethod(string $name): void
     {
         $this->getDocument()->selectFieldOption('Shipping method', $name);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function selectFieldOption($field, $option): void
+    public function selectFieldOption(string $field, string $option): void
     {
         $this->getDocument()->selectFieldOption($field, $option);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function fillField($field, $value): void
+    public function fillField(string $field, string $value): void
     {
         $this->getDocument()->fillField($field, $value);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function submit(): void
     {
         $this->create();

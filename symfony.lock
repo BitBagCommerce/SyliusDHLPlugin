@@ -17,7 +17,7 @@
         "version": "v3.7.0"
     },
     "bitbag/shipping-export-plugin": {
-        "version": "1.14-upgrade",
+        "version": "dev-1.14-upgrade",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
