@@ -18,10 +18,6 @@ Feature: Creating shipping gateway
     And I fill the "Client id" field with "secret"
     And I fill the "Client secret" field with "super_secret"
     And I fill the "Environment" select option with "sandbox"
-    And I fill the "Name (first and last name or company name)" field with "John Doe"
-    And I fill the "Country" select option with "US"
-    And I fill the "City" field with "New York"
-    And I fill the "Street" field with "Example St"
-    And I fill the "Postal code" field with "12122"
+    And I fill the shipper address information
     And I add it
     Then I should be notified that the shipping gateway has been created
