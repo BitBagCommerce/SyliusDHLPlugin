@@ -24,6 +24,8 @@ use Webmozart\Assert\Assert;
 
 final class DhlShippingExportEventListener
 {
+    public const DHL_GATEWAY_CODE = 'dhl';
+
     public function __construct(
         private WebClientInterface $webClient,
         private DhlTokenProviderInterface $dhlTokenProvider,
@@ -41,7 +43,7 @@ final class DhlShippingExportEventListener
         $shippingGateway = $shippingExport->getShippingGateway();
         Assert::notNull($shippingGateway);
 
-        if ('dhl' !== $shippingGateway->getCode()) {
+        if (self::DHL_GATEWAY_CODE !== $shippingGateway->getCode()) {
             return;
         }
 
