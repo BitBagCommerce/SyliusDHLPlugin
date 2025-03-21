@@ -3,5 +3,16 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <defaults public="true" />
+        <service class="Tests\BitBag\SyliusDhlPlugin\Behat\Context\Ui\Admin\ShippingGatewayContext"
+                 id="bitbag.sylius_dhl_plugin.behat.context.ui.admin.shipping_gateway">
+            <argument type="service" id="bitbag.sylius_dhl_plugin.behat.page.admin.shipping_gateway.create" />
+            <argument type="service" id="sylius.behat.current_page_resolver"/>
+            <argument type="service" id="sylius.behat.notification_checker"/>
+        </service>
+        <service class="Tests\BitBag\SyliusDhlPlugin\Behat\Page\Admin\ShippingGateway\CreatePage"
+                 id="bitbag.sylius_dhl_plugin.behat.page.admin.shipping_gateway.create"
+                 parent="sylius.behat.page.admin.crud.create">
+            <argument>bitbag_admin_shipping_gateway_create</argument>
+        </service>
     </services>
 </container>

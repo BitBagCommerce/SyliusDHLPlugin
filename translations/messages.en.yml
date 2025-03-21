@@ -1,0 +1,17 @@
+bitbag_sylius_dhl_plugin:
+  ui:
+    username: Username
+    password: Password
+    client_id: Client id
+    client_secret: Client secret
+    environment: Environment
+    environments:
+      production: Production
+      sandbox: Sandbox
+    name: Name (first and last name or company name)
+    city: City
+    street: Street
+    postal_code: Postal code
+    email: E-mail
+    phone_number: Phone number
+    country_code: Country
