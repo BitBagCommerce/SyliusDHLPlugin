@@ -60,13 +60,17 @@ final class WebClientSpec extends ObjectBehavior
     ): void {
         $this->setShippingGateway($shippingGateway);
 
-        $shippingGateway->getConfigValue('country_code')->willReturn('US');
-        $shippingGateway->getConfigValue('name')->willReturn('John Doe');
-        $shippingGateway->getConfigValue('city')->willReturn('New York');
-        $shippingGateway->getConfigValue('street')->willReturn('Example Street 12a');
-        $shippingGateway->getConfigValue('postal_code')->willReturn('12456');
-        $shippingGateway->getConfigValue('email')->willReturn('john@doe.com');
-        $shippingGateway->getConfigValue('phone_number')->willReturn('123456789');
+        $shippingGateway->getConfigValue('address')
+            ->shouldBeCalledTimes(7)
+            ->willReturn([
+                'country_code' => 'US',
+                'name' => 'John Doe',
+                'city' => 'New York',
+                'street' => 'Example Street 12a',
+                'postal_code' => '12456',
+                'email' => 'john@doe.com',
+                'phone_number' => '123456789',
+            ]);
 
         $this->getShipper();
     }
