@@ -4,6 +4,7 @@
     <parameters>
         <parameter key="bitbag.dhl_plugin.resolver.url.production" type="string">https://api-eu.dhl.comdontusepls</parameter>
         <parameter key="bitbag.dhl_plugin.resolver.url.sandbox" type="string">https://api-sandbox.dhl.com</parameter>
+        <parameter key="bitbag.dhl_plugin.api.web_client.weight_uom">g</parameter>
     </parameters>
     <services>
         <service class="BitBag\SyliusDhlPlugin\Form\Type\ShippingGatewayType"
@@ -13,9 +14,21 @@
 
         <service class="BitBag\SyliusDhlPlugin\Provider\DhlTokenProvider"
                  id="bitbag.dhl_plugin.provider.dhl_token_provider">
-            <argument type="service" id="http_client" />
+            <argument type="service" id="bitbag.dhl_plugin.api.dhl_api_client" />
             <argument type="service" id="cache.app" />
+        </service>
+
+        <service class="BitBag\SyliusDhlPlugin\Api\DhlApiClient"
+                 id="bitbag.dhl_plugin.api.dhl_api_client">
+            <argument type="service" id="http_client" />
             <argument type="service" id="bitbag.dhl_plugin.resolver.dhl_api_url_resolver" />
+        </service>
+
+        <service class="BitBag\SyliusDhlPlugin\Exporter\DhlShipmentExporter"
+                 id="bitbag.dhl_plugin.exporter.dhl_shipment_exporter">
+            <argument type="service" id="bitbag.dhl_plugin.api.web_client" />
+            <argument type="service" id="bitbag.dhl_plugin.provider.dhl_token_provider" />
+            <argument type="service" id="bitbag.dhl_plugin.api.dhl_api_client" />
         </service>
 
         <service class="BitBag\SyliusDhlPlugin\Resolver\DhlApiUrlResolver"
@@ -25,15 +38,14 @@
         </service>
 
         <service class="BitBag\SyliusDhlPlugin\Api\WebClient"
-                 id="bitbag.dhl_plugin.api.web_client" />
+                 id="bitbag.dhl_plugin.api.web_client">
+            <argument>%bitbag.dhl_plugin.api.web_client.weight_uom%</argument>
+        </service>
 
         <service class="BitBag\SyliusDhlPlugin\EventListener\DhlShippingExportEventListener"
                  id="bitbag.dhl_plugin.event_listener.dhl_shipping_export">
-            <argument type="service" id="bitbag.dhl_plugin.api.web_client" />
-            <argument type="service" id="bitbag.dhl_plugin.provider.dhl_token_provider" />
             <argument type="service" id="request_stack" />
-            <argument type="service" id="http_client" />
-            <argument type="service" id="bitbag.dhl_plugin.resolver.dhl_api_url_resolver" />
+            <argument type="service" id="bitbag.dhl_plugin.exporter.dhl_shipment_exporter" />
             <tag name="kernel.event_listener" method="exportShipment" event="bitbag.shipping_export.export_shipment" />
         </service>
     </services>

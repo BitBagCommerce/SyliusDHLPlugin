@@ -23,6 +23,11 @@ final class WebClient implements WebClientInterface
 
     private ShipmentInterface $shipment;
 
+    public function __construct(
+        private string $weightUom,
+    ) {
+    }
+
     public function setShippingGateway(ShippingGatewayInterface $shippingGateway): void
     {
         $this->shippingGateway = $shippingGateway;
@@ -84,7 +89,7 @@ final class WebClient implements WebClientInterface
 
         return [
             'weight' => [
-                'uom' => 'g',
+                'uom' => $this->weightUom,
                 'value' => (int) $weight,
             ],
         ];
