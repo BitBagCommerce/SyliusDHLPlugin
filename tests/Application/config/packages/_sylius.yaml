@@ -18,11 +18,3 @@ sylius_shop:
 
 sylius_api:
     enabled: true
-
-sylius_ui:
-    events:
-        sylius.admin.order.show.shipment_content:
-            blocks:
-                download_shipping_label_button:
-                    template: '@BitBagSyliusDhlPlugin/Admin/Order/Show/Shipment/_downloadShippingLabelButton.html.twig'
-                    priority: 25

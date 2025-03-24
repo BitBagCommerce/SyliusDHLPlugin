@@ -30,7 +30,7 @@ final class DhlShippingExportExtension extends AbstractExtension
         ];
     }
 
-    public function getShippingExportId(ShipmentInterface $shipment): ?string
+    public function getShippingExportId(ShipmentInterface $shipment): ?int
     {
         $shippingExport = $this->shippingExportRepository->findOneBy(['shipment' => $shipment]);
 
