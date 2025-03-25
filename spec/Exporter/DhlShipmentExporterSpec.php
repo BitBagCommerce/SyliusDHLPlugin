@@ -15,9 +15,9 @@ use BitBag\SyliusDhlPlugin\Api\DhlApiClientInterface;
 use BitBag\SyliusDhlPlugin\Api\WebClientInterface;
 use BitBag\SyliusDhlPlugin\Exporter\DhlShipmentExporter;
 use BitBag\SyliusDhlPlugin\Exporter\DhlShipmentExporterInterface;
-use BitBag\SyliusDhlPlugin\Manager\ShippingLabelManagerInterface;
 use BitBag\SyliusDhlPlugin\Provider\DhlTokenProviderInterface;
 use BitBag\SyliusDhlPlugin\Resolver\DhlApiUrlResolverInterface;
+use BitBag\SyliusDhlPlugin\Storage\ShippingLabelStorageInterface;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingExportInterface;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
 use DateTime;
@@ -42,7 +42,7 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
         WebClientInterface $webClient,
         DhlTokenProviderInterface $dhlTokenProvider,
         DhlApiClientInterface $dhlApiClient,
-        ShippingLabelManagerInterface $shippingLabelManager,
+        ShippingLabelStorageInterface $shippingLabelManager,
         ObjectManager $shippingExportManager,
         Registry $registry,
     ): void {
@@ -65,7 +65,7 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
         DhlApiClientInterface $dhlApiClient,
         DhlApiUrlResolverInterface $apiUrlResolver,
         ResponseInterface $response,
-        ShippingLabelManagerInterface $shippingLabelManager,
+        ShippingLabelStorageInterface $shippingLabelManager,
         ObjectManager $shippingExportManager,
         Registry $registry,
         WorkflowInterface $workflow,
@@ -105,7 +105,6 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
         $workflow->can($shipment, ShipmentTransitions::TRANSITION_SHIP)->willReturn(true);
         $workflow->apply($shipment, ShipmentTransitions::TRANSITION_SHIP)->shouldBeCalled();
 
-        $shippingExportManager->persist($shippingExport)->shouldBeCalled();
         $shippingExportManager->flush()->shouldBeCalled();
 
         $this->export($shippingExport);

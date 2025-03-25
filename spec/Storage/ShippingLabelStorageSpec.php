@@ -9,32 +9,29 @@
 
 declare(strict_types=1);
 
-namespace spec\BitBag\SyliusDhlPlugin\Manager;
+namespace spec\BitBag\SyliusDhlPlugin\Storage;
 
-use BitBag\SyliusDhlPlugin\Manager\ShippingLabelManager;
-use BitBag\SyliusDhlPlugin\Manager\ShippingLabelManagerInterface;
+use BitBag\SyliusDhlPlugin\Storage\ShippingLabelStorage;
+use BitBag\SyliusDhlPlugin\Storage\ShippingLabelStorageInterface;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingExportInterface;
-use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-final class ShippingLabelManagerSpec extends ObjectBehavior
+final class ShippingLabelStorageSpec extends ObjectBehavior
 {
     public function it_is_initializable(): void
     {
-        $this->shouldHaveType(ShippingLabelManager::class);
-        $this->shouldImplement(ShippingLabelManagerInterface::class);
+        $this->shouldHaveType(ShippingLabelStorage::class);
+        $this->shouldImplement(ShippingLabelStorageInterface::class);
     }
 
     public function let(
         Filesystem $filesystem,
-        ObjectManager $shippingExportManager,
     ): void {
         $this->beConstructedWith(
             $filesystem,
-            $shippingExportManager,
             '/shipping_labels',
         );
     }

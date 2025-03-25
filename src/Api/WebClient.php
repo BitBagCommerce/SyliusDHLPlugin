@@ -44,7 +44,7 @@ final class WebClient implements WebClientInterface
         Assert::string($countryCode);
 
         return [
-            'name1' => $this->getShipperAddress('name'),
+            'name1' => $this->getShipperAddress('name'), //The field name 'name1' is intentionally used here to match DHL's API specification.
             'city' => $this->getShipperAddress('city'),
             'addressStreet' => $this->getShipperAddress('street'),
             'postalCode' => $this->getShipperAddress('postal_code'),
@@ -69,7 +69,7 @@ final class WebClient implements WebClientInterface
         Assert::notNull($customer);
 
         return [
-            'name1' => $shippingAddress->getFullName(),
+            'name1' => $shippingAddress->getFullName(), //The field name 'name1' is intentionally used here to match DHL's API specification.
             'city' => $shippingAddress->getCity(),
             'addressStreet' => $shippingAddress->getStreet(),
             'postalCode' => $shippingAddress->getPostcode(),

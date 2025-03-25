@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusDhlPlugin\Manager;
+namespace BitBag\SyliusDhlPlugin\Storage;
 
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingExportInterface;
 
-interface ShippingLabelManagerInterface
+interface ShippingLabelStorageInterface
 {
     public function saveShippingLabel(
         ShippingExportInterface $shippingExport,

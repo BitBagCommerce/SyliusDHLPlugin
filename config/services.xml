@@ -34,10 +34,9 @@
             <argument type="service" id="workflow.registry" />
         </service>
 
-        <service class="BitBag\SyliusDhlPlugin\Manager\ShippingLabelManager"
+        <service class="BitBag\SyliusDhlPlugin\Storage\ShippingLabelStorage"
                  id="bitbag.dhl_plugin.manager.shipping_label_manager">
             <argument type="service" id="filesystem" />
-            <argument type="service" id="bitbag.manager.shipping_export" />
             <argument>%bitbag.shipping_labels_path%</argument>
         </service>
 

@@ -13,8 +13,8 @@ namespace BitBag\SyliusDhlPlugin\Exporter;
 
 use BitBag\SyliusDhlPlugin\Api\DhlApiClientInterface;
 use BitBag\SyliusDhlPlugin\Api\WebClientInterface;
-use BitBag\SyliusDhlPlugin\Manager\ShippingLabelManagerInterface;
 use BitBag\SyliusDhlPlugin\Provider\DhlTokenProviderInterface;
+use BitBag\SyliusDhlPlugin\Storage\ShippingLabelStorageInterface;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingExportInterface;
 use DateTime;
 use Doctrine\Persistence\ObjectManager;
@@ -30,7 +30,7 @@ final class DhlShipmentExporter implements DhlShipmentExporterInterface
         private WebClientInterface $webClient,
         private DhlTokenProviderInterface $dhlTokenProvider,
         private DhlApiClientInterface $dhlApiClient,
-        private ShippingLabelManagerInterface $shippingLabelManager,
+        private ShippingLabelStorageInterface $shippingLabelStorage,
         private ObjectManager $shippingExportManager,
         private Registry $registry,
     ) {
@@ -59,7 +59,7 @@ final class DhlShipmentExporter implements DhlShipmentExporterInterface
         $data = $response->toArray();
         $parcel = current($data['items']);
         $label = $parcel['label'];
-        $this->shippingLabelManager->saveShippingLabel($shippingExport, $label['b64'], $label['fileFormat']);
+        $this->shippingLabelStorage->saveShippingLabel($shippingExport, $label['b64'], $label['fileFormat']);
 
         $this->markShipmentAsExported($shippingExport, $parcel['shipmentNo']);
     }
@@ -81,7 +81,6 @@ final class DhlShipmentExporter implements DhlShipmentExporterInterface
             $shipmentWorkflow->apply($shipment, ShipmentTransitions::TRANSITION_SHIP);
         }
 
-        $this->shippingExportManager->persist($shippingExport);
         $this->shippingExportManager->flush();
     }
 }

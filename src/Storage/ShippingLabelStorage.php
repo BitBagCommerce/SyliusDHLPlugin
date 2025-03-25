@@ -9,18 +9,16 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusDhlPlugin\Manager;
+namespace BitBag\SyliusDhlPlugin\Storage;
 
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingExportInterface;
-use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Webmozart\Assert\Assert;
 
-final class ShippingLabelManager implements ShippingLabelManagerInterface
+final class ShippingLabelStorage implements ShippingLabelStorageInterface
 {
     public function __construct(
         private Filesystem $fileSystem,
-        private ObjectManager $shippingExportManager,
         private string $shippingLabelsPath,
     ) {
     }
@@ -31,7 +29,7 @@ final class ShippingLabelManager implements ShippingLabelManagerInterface
         string $labelExtension,
     ): void {
         $labelPath = $this->shippingLabelsPath
-            . '/' . $this->getFilename($shippingExport)
+            . \DIRECTORY_SEPARATOR . $this->getFilename($shippingExport)
             . '.' . strtolower($labelExtension);
 
         $labelPdf = base64_decode($labelContent, true);
@@ -39,9 +37,6 @@ final class ShippingLabelManager implements ShippingLabelManagerInterface
 
         $this->fileSystem->dumpFile($labelPath, $labelPdf);
         $shippingExport->setLabelPath($labelPath);
-
-        $this->shippingExportManager->persist($shippingExport);
-        $this->shippingExportManager->flush();
     }
 
     private function getFilename(ShippingExportInterface $shippingExport): string

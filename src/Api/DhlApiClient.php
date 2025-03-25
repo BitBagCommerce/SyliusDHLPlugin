@@ -30,6 +30,8 @@ final class DhlApiClient implements DhlApiClientInterface
         WebClientInterface $webClient,
         string $accessToken,
     ): ResponseInterface {
+        $productContractNumber = '33333333330101';
+
         return $this->client->request(
             'POST',
             $this->apiUrlResolver->resolve($shippingGateway) . '/parcel/de/shipping/v2/orders',
@@ -43,7 +45,7 @@ final class DhlApiClient implements DhlApiClientInterface
                     'shipments' => [
                         [
                             'product' => 'V01PAK',
-                            'billingNumber' => '33333333330101',
+                            'billingNumber' => $productContractNumber,
                             'refNo' => $webClient->getRefNumber(),
                             'shipper' => $webClient->getShipper(),
                             'consignee' => $webClient->getConsignee(),
