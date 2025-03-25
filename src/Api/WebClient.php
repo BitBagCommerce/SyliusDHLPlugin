@@ -40,17 +40,17 @@ final class WebClient implements WebClientInterface
 
     public function getShipper(): array
     {
-        $countryCode = $this->getShippingGatewayConfig('country_code');
+        $countryCode = $this->getShipperAddress('country_code');
         Assert::string($countryCode);
 
         return [
-            'name1' => $this->getShippingGatewayConfig('name'),
-            'city' => $this->getShippingGatewayConfig('city'),
-            'addressStreet' => $this->getShippingGatewayConfig('street'),
-            'postalCode' => $this->getShippingGatewayConfig('postal_code'),
+            'name1' => $this->getShipperAddress('name'), //The field name 'name1' is intentionally used here to match DHL's API specification.
+            'city' => $this->getShipperAddress('city'),
+            'addressStreet' => $this->getShipperAddress('street'),
+            'postalCode' => $this->getShipperAddress('postal_code'),
             'country' => Countries::getAlpha3Code($countryCode),
-            'email' => $this->getShippingGatewayConfig('email'),
-            'phone' => $this->getShippingGatewayConfig('phone_number'),
+            'email' => $this->getShipperAddress('email'),
+            'phone' => $this->getShipperAddress('phone_number'),
         ];
     }
 
@@ -69,7 +69,7 @@ final class WebClient implements WebClientInterface
         Assert::notNull($customer);
 
         return [
-            'name1' => $shippingAddress->getFullName(),
+            'name1' => $shippingAddress->getFullName(), //The field name 'name1' is intentionally used here to match DHL's API specification.
             'city' => $shippingAddress->getCity(),
             'addressStreet' => $shippingAddress->getStreet(),
             'postalCode' => $shippingAddress->getPostcode(),
@@ -106,6 +106,15 @@ final class WebClient implements WebClientInterface
     private function getShippingGatewayConfig(string $config): mixed
     {
         return $this->shippingGateway->getConfigValue($config);
+    }
+
+    private function getShipperAddress(string $key): mixed
+    {
+        $address = $this->getShippingGatewayConfig('address');
+        Assert::isArray($address);
+        Assert::keyExists($address, $key);
+
+        return $address[$key];
     }
 
     private function getOrder(): OrderInterface

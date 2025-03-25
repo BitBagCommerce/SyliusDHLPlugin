@@ -17,11 +17,17 @@ use BitBag\SyliusDhlPlugin\Exporter\DhlShipmentExporter;
 use BitBag\SyliusDhlPlugin\Exporter\DhlShipmentExporterInterface;
 use BitBag\SyliusDhlPlugin\Provider\DhlTokenProviderInterface;
 use BitBag\SyliusDhlPlugin\Resolver\DhlApiUrlResolverInterface;
+use BitBag\SyliusDhlPlugin\Storage\ShippingLabelStorageInterface;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingExportInterface;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
+use DateTime;
+use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use Sylius\Component\Core\Model\ShipmentInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Sylius\Component\Shipping\ShipmentTransitions;
+use Symfony\Component\Workflow\Registry;
+use Symfony\Component\Workflow\WorkflowInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class DhlShipmentExporterSpec extends ObjectBehavior
@@ -36,11 +42,17 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
         WebClientInterface $webClient,
         DhlTokenProviderInterface $dhlTokenProvider,
         DhlApiClientInterface $dhlApiClient,
+        ShippingLabelStorageInterface $shippingLabelStorage,
+        ObjectManager $shippingExportManager,
+        Registry $registry,
     ): void {
         $this->beConstructedWith(
             $webClient,
             $dhlTokenProvider,
             $dhlApiClient,
+            $shippingLabelStorage,
+            $shippingExportManager,
+            $registry,
         );
     }
 
@@ -49,11 +61,14 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
         ShippingExportInterface $shippingExport,
         ShipmentInterface $shipment,
         ShippingGatewayInterface $shippingGateway,
-        RequestStack $requestStack,
         DhlTokenProviderInterface $dhlTokenProvider,
         DhlApiClientInterface $dhlApiClient,
         DhlApiUrlResolverInterface $apiUrlResolver,
         ResponseInterface $response,
+        ShippingLabelStorageInterface $shippingLabelStorage,
+        ObjectManager $shippingExportManager,
+        Registry $registry,
+        WorkflowInterface $workflow,
     ): void {
         $shippingExport->getShippingGateway()->willReturn($shippingGateway);
 
@@ -74,6 +89,23 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
         $webClient->getDetails()->willReturn([]);
 
         $dhlApiClient->exportShipments($shippingGateway, $webClient, 'example-access-token')->willReturn($response);
+        $response->toArray()->willReturn(
+            [
+            'items' => [['label' => ['b64' => 'base64-encoded-pdf', 'fileFormat' => 'pdf'], 'shipmentNo' => '33333']]],
+        )->shouldBeCalled();
+
+        $shippingLabelStorage->saveShippingLabel($shippingExport, 'base64-encoded-pdf', 'pdf')
+            ->shouldBeCalled();
+
+        $shippingExport->setState(ShippingExportInterface::STATE_EXPORTED)->shouldBeCalled();
+        $shippingExport->setExportedAt(Argument::type(DateTime::class))->shouldBeCalled();
+        $shippingExport->setExternalId('33333')->shouldBeCalled();
+
+        $registry->get($shipment, ShipmentTransitions::GRAPH)->willReturn($workflow);
+        $workflow->can($shipment, ShipmentTransitions::TRANSITION_SHIP)->willReturn(true);
+        $workflow->apply($shipment, ShipmentTransitions::TRANSITION_SHIP)->shouldBeCalled();
+
+        $shippingExportManager->flush()->shouldBeCalled();
 
         $this->export($shippingExport);
     }

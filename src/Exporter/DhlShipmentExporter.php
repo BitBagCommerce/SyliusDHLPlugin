@@ -14,7 +14,12 @@ namespace BitBag\SyliusDhlPlugin\Exporter;
 use BitBag\SyliusDhlPlugin\Api\DhlApiClientInterface;
 use BitBag\SyliusDhlPlugin\Api\WebClientInterface;
 use BitBag\SyliusDhlPlugin\Provider\DhlTokenProviderInterface;
+use BitBag\SyliusDhlPlugin\Storage\ShippingLabelStorageInterface;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingExportInterface;
+use DateTime;
+use Doctrine\Persistence\ObjectManager;
+use Sylius\Component\Shipping\ShipmentTransitions;
+use Symfony\Component\Workflow\Registry;
 use Webmozart\Assert\Assert;
 
 final class DhlShipmentExporter implements DhlShipmentExporterInterface
@@ -25,6 +30,9 @@ final class DhlShipmentExporter implements DhlShipmentExporterInterface
         private WebClientInterface $webClient,
         private DhlTokenProviderInterface $dhlTokenProvider,
         private DhlApiClientInterface $dhlApiClient,
+        private ShippingLabelStorageInterface $shippingLabelStorage,
+        private ObjectManager $shippingExportManager,
+        private Registry $registry,
     ) {
     }
 
@@ -47,5 +55,32 @@ final class DhlShipmentExporter implements DhlShipmentExporterInterface
         Assert::string($accessToken);
 
         $response = $this->dhlApiClient->exportShipments($shippingGateway, $this->webClient, $accessToken);
+
+        $data = $response->toArray();
+        $parcel = current($data['items']);
+        $label = $parcel['label'];
+        $this->shippingLabelStorage->saveShippingLabel($shippingExport, $label['b64'], $label['fileFormat']);
+
+        $this->markShipmentAsExported($shippingExport, $parcel['shipmentNo']);
+    }
+
+    private function markShipmentAsExported(ShippingExportInterface $shippingExport, string $shipmentId): void
+    {
+        $shippingExport->setState(ShippingExportInterface::STATE_EXPORTED);
+        $shippingExport->setExportedAt(new DateTime());
+        $shippingExport->setExternalId($shipmentId);
+        $shippingExport->getShipment();
+        $shipment = $shippingExport->getShipment();
+        Assert::notNull($shipment);
+
+        $shipmentWorkflow = $this->registry->get($shipment, ShipmentTransitions::GRAPH);
+
+        if ($shipmentWorkflow->can($shipment, ShipmentTransitions::TRANSITION_SHIP)) {
+            $shipment->setTracking($shipmentId);
+            $shipment->setShippedAt(new DateTime());
+            $shipmentWorkflow->apply($shipment, ShipmentTransitions::TRANSITION_SHIP);
+        }
+
+        $this->shippingExportManager->flush();
     }
 }
