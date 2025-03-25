@@ -29,13 +29,13 @@
             <argument type="service" id="bitbag.dhl_plugin.api.web_client" />
             <argument type="service" id="bitbag.dhl_plugin.provider.dhl_token_provider" />
             <argument type="service" id="bitbag.dhl_plugin.api.dhl_api_client" />
-            <argument type="service" id="bitbag.dhl_plugin.manager.shipping_label_manager" />
+            <argument type="service" id="bitbag.dhl_plugin.storage.shipping_label_storage" />
             <argument type="service" id="bitbag.manager.shipping_export" />
             <argument type="service" id="workflow.registry" />
         </service>
 
         <service class="BitBag\SyliusDhlPlugin\Storage\ShippingLabelStorage"
-                 id="bitbag.dhl_plugin.manager.shipping_label_manager">
+                 id="bitbag.dhl_plugin.storage.shipping_label_storage">
             <argument type="service" id="filesystem" />
             <argument>%bitbag.shipping_labels_path%</argument>
         </service>

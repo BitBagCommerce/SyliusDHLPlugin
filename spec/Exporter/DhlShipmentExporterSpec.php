@@ -42,7 +42,7 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
         WebClientInterface $webClient,
         DhlTokenProviderInterface $dhlTokenProvider,
         DhlApiClientInterface $dhlApiClient,
-        ShippingLabelStorageInterface $shippingLabelManager,
+        ShippingLabelStorageInterface $shippingLabelStorage,
         ObjectManager $shippingExportManager,
         Registry $registry,
     ): void {
@@ -50,7 +50,7 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
             $webClient,
             $dhlTokenProvider,
             $dhlApiClient,
-            $shippingLabelManager,
+            $shippingLabelStorage,
             $shippingExportManager,
             $registry,
         );
@@ -65,7 +65,7 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
         DhlApiClientInterface $dhlApiClient,
         DhlApiUrlResolverInterface $apiUrlResolver,
         ResponseInterface $response,
-        ShippingLabelStorageInterface $shippingLabelManager,
+        ShippingLabelStorageInterface $shippingLabelStorage,
         ObjectManager $shippingExportManager,
         Registry $registry,
         WorkflowInterface $workflow,
@@ -94,7 +94,7 @@ final class DhlShipmentExporterSpec extends ObjectBehavior
             'items' => [['label' => ['b64' => 'base64-encoded-pdf', 'fileFormat' => 'pdf'], 'shipmentNo' => '33333']]],
         )->shouldBeCalled();
 
-        $shippingLabelManager->saveShippingLabel($shippingExport, 'base64-encoded-pdf', 'pdf')
+        $shippingLabelStorage->saveShippingLabel($shippingExport, 'base64-encoded-pdf', 'pdf')
             ->shouldBeCalled();
 
         $shippingExport->setState(ShippingExportInterface::STATE_EXPORTED)->shouldBeCalled();
