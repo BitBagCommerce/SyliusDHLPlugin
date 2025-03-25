@@ -57,5 +57,11 @@
             <argument type="service" id="bitbag.dhl_plugin.exporter.dhl_shipment_exporter" />
             <tag name="kernel.event_listener" method="exportShipment" event="bitbag.shipping_export.export_shipment" />
         </service>
+
+        <service class="BitBag\SyliusDhlPlugin\TwigExtension\DhlShippingExportExtension"
+                 id="bitbag.dhl_plugin.twig_extension.dhl_shipping_export_extension">
+            <argument type="service" id="bitbag.repository.shipping_export"/>
+            <tag name="twig.extension" />
+        </service>
     </services>
 </container>

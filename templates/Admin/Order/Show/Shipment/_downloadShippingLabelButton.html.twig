@@ -1,0 +1,7 @@
+{% set shipping_export_id = get_shipping_export_id(shipment) %}
+
+{% if shipping_export_id is not null and shipment.tracking is not empty  %}
+    <a class="ui icon labeled tiny fluid teal button" href="{{ path('bitbag_admin_get_shipping_label', {'id' : shipping_export_id}) }}">
+        <i class="file pdf outline icon"></i>{{ 'bitbag.ui.download_shipping_label'|trans }}
+    </a>
+{% endif %}
