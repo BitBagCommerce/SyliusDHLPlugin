@@ -58,7 +58,9 @@ final class DhlShippingExportEventListener
 
     private function logError(Exception $exception): void
     {
-        $context = [];
+        $context = [
+            'trace' => $exception->getTrace(),
+        ];
         if ($exception instanceof ClientException) {
             $context['response'] = $exception->getResponse()->getContent(false);
         }

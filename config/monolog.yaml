@@ -2,7 +2,8 @@ monolog:
   channels: ['shipping_export']
   handlers:
     shipping_export:
-      type: stream
+      type: rotating_file
       path: '%kernel.logs_dir%/%kernel.environment%_shipping_export.log'
+      max_files: 14
       level: debug
       channels: ['shipping_export']
