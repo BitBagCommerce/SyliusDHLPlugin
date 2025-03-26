@@ -55,6 +55,7 @@
                  id="bitbag.dhl_plugin.event_listener.dhl_shipping_export">
             <argument type="service" id="request_stack" />
             <argument type="service" id="bitbag.dhl_plugin.exporter.dhl_shipment_exporter" />
+            <argument type="service" id="monolog.logger.shipping_export" />
             <tag name="kernel.event_listener" method="exportShipment" event="bitbag.shipping_export.export_shipment" />
         </service>
 

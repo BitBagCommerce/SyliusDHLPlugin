@@ -16,6 +16,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class ShippingGatewayType extends AbstractType
 {
@@ -24,15 +25,39 @@ final class ShippingGatewayType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.username',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('password', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.password',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('client_id', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.client_id',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('client_secret', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.client_secret',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('environment', ChoiceType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.environment',

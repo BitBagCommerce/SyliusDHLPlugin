@@ -15,6 +15,7 @@ use Sylius\Bundle\AddressingBundle\Form\Type\CountryCodeChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class DhlShipperAddressType extends AbstractType
 {
@@ -23,24 +24,66 @@ final class DhlShipperAddressType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.name',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('country_code', CountryCodeChoiceType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.country_code',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('city', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.city',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('street', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.street',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('postal_code', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.postal_code',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('email', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.email',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
             ->add('phone_number', TextType::class, [
                 'label' => 'bitbag_sylius_dhl_plugin.ui.phone_number',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'bitbag_sylius_dhl_plugin.form.not_blank',
+                        'groups' => 'bitbag',
+                    ]),
+                ],
             ])
         ;
     }

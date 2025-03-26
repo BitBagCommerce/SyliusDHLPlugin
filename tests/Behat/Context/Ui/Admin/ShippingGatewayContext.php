@@ -103,5 +103,7 @@ final class ShippingGatewayContext implements Context
         $this->resolveCurrentPage()->fillField('City', 'New York');
         $this->resolveCurrentPage()->fillField('Street', 'Example Street');
         $this->resolveCurrentPage()->fillField('Postal code', '12122');
+        $this->resolveCurrentPage()->fillField('E-mail', 'john.doe@example.com');
+        $this->resolveCurrentPage()->fillField('Phone number', '+48123123123');
     }
 }
