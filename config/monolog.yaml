@@ -1,0 +1,8 @@
+monolog:
+  channels: ['shipping_export']
+  handlers:
+    shipping_export:
+      type: stream
+      path: '%kernel.logs_dir%/%kernel.environment%_shipping_export.log'
+      level: debug
+      channels: ['shipping_export']

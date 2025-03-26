@@ -1,4 +1,6 @@
 imports:
+  - { resource: "monolog.yaml" }
+
   - { resource: "@BitBagSyliusShippingExportPlugin/Resources/config/config.yml" }
 
 sylius_ui:

@@ -1,0 +1,3 @@
+bitbag_sylius_dhl_plugin:
+  form:
+    not_blank: This field cannot be blank
